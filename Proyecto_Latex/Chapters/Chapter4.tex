@@ -8,17 +8,16 @@
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-Este capítulo contiene la  descripción de  las pruebas realizadas para la validación del sistema. La metodología para esta fase partió desde un nivel micro en módulos funcionales,  hasta alcanzar el nivel de pruebas de sistema,  y se finalizó con ensayos de inserción de fallas.
-
+Este capítulo contiene la  descripción de  las pruebas realizadas para la validación del sistema. La metodología para esta fase parte desde pruebas unitarias de los módulos que componen el equipo, ensayos de inserción de fallas, hasta alcanzar el nivel de pruebas de sistema.
 
 \section{Validación de componentes}
 \label{sec:validacion_componentes}
 
 Como se explicó anteriormente, los criterios escogidos para la selección de los dispositivos fueron: a) el factor económico, nivel de documentación,  c) disponibilidad en el mercado argentino, d) tiempo estimado de desarrollo. Sin embargo, el criterio determinante se basó en los resultados generados en los ensayos que se describen a continuación.
 
-\subsection{Nrf24l01+}
+\subsection{Uso del Nrf24l01+}
 
-Este ensayo fue realizado como un módulo independiente, con el objetivo de evaluar el desempeño del transceptor nrf24l01 bajo condiciones ideales y su estabilidad al utilizar la biblioteca seleccionada.
+El objetivo de este ensayo es verificar el uso de la biblioteca RF24 para la transmisión de paquetes de información de forma inalámbrica a través del transceptor nrf24l01+ bajo condiciones ideales.
 
 La prueba consistió  en establecer la comunicación inalámbrica entre dos nodos separados a una distancia de 40 cm. Uno de los nodos mantiene un conteo incremental e intenta transmitir la última lectura al próximo nodo -el cual se mantiene a la espera del mensaje- en caso de que transcurra un tiempo mayor o igual a 200 ms sin recibir un mensaje, se registra un evento de timeout. El resultado se obtiene a partir del porcentaje de mensajes erróneos en relación a los totales enviados, durante un periodo de tiempo de una hora.
 
@@ -37,6 +36,7 @@ Materiales utilizados:
 
 La figura \ref{fig:figura_a} muestra un esquema de la metodología empleada para realizar la primera prueba de este ensayo; la Raspberry Pi se seleccionó como el único nodo fijo durante estos ensayos, el resto de dispositivos adoptará sucesivamente el rol de nodo secundario uno a la vez. Los resultados de esta prueba son bastante desalentadores, ya que para cada dispositivo el porcentaje de mensajes exitosos apenas alcanza un 0,5 \% en el mejor de los casos.
 
+\vspace{5mm} %5mm vertical space
 
 \begin{figure}[ht]
 	\centering
@@ -46,9 +46,9 @@ La figura \ref{fig:figura_a} muestra un esquema de la metodología empleada para
 \end{figure}
 
 
-Se inició una fase de búsqueda de posibles causas, que inició por una revisión de ejemplos de uso del dispositivo según la documentación de la biblioteca, así como la revisión de pruebas con resultados similares de diferentes desarrolladores y su experiencia reportada. En función de esto se identificó que un elemento clave, es proveer al dispositivo de una fuente de alimentación estable, ya que en algunos casos presentaban fallas similares causadas por fluctuaciones y ruido presente en la alimentación del dispositivo.
+Se inició una fase de búsqueda de posibles causas, la cual comenzó por una revisión de ejemplos de uso del dispositivo -según la documentación de la biblioteca- así como la revisión de pruebas con resultados similares de diferentes desarrolladores y su experiencia reportada. En función de esto, se identificó que un elemento clave es proveer al dispositivo de una fuente de alimentación estable, ya que en algunos casos presentaban fallas similares causadas por fluctuaciones y ruido presente en la alimentación del dispositivo.
 
-Una vez identificada una posible solución, se realizó nuevamente el ensayo reemplazando el adaptador por un equipo de iguales características pero de mejor calidad. Los resultados de esta segunda prueba se consideran satisfactorios y están representados en la figura \ref{fig:figura_b}, donde se puede apreciar que el menor valor corresponde a un 98 \% de éxito en mensajes transmitidos.
+Una vez identificada una posible solución, se reemplazó el adaptador por un equipo de iguales características y de mayor calidad y realizó nuevamente el ensayo. Los resultados de esta segunda prueba se consideran satisfactorios y están representados en la figura \ref{fig:figura_b}, en la que se puede apreciar que el menor valor corresponde a un 98 \% de éxito en mensajes transmitidos.
 
 
 \begin{figure}[ht]
@@ -58,26 +58,26 @@ Una vez identificada una posible solución, se realizó nuevamente el ensayo ree
 	\label{fig:figura_b}
 \end{figure}
 
-Estos resultados evidencian lo susceptible que es el sistema a ruido en la alimentación y la necesidad de una fuente regulada, estable, con el menor ruido posible, es por esto que a partir de este punto se incluye en el diseño del sistema el adaptador del módulo transceptor nrf24l01+. Una característica a resaltar de este adaptador es que imposibilita el uso del nrf24l01+ convencional de antena en circuito impreso, es compatible únicamente con el modelo con amplificador de potencia y reducción de ruido con antena.
+Estos resultados evidencian lo susceptible que es el sistema a ruido en la alimentación y la necesidad de una fuente regulada, estable, con el menor ruido posible. Es por esto que a partir de este punto se incluye en el diseño del sistema el adaptador del módulo transceptor nrf24l01+. Una característica a resaltar de este adaptador es que imposibilita el uso del nrf24l01+ convencional de antena en circuito impreso, es compatible únicamente con el modelo con amplificador de potencia y reducción de ruido con antena.
 
 
-\subsection{Biblioteca RF24}
+\subsection{Pruebas de alcance}
  
 
-El objetivo de este ensayo es verificar el uso de la biblioteca RF24 para la transmisión de paquetes de información haciendo uso del transceptor nrf24l01+. La disposición de los equipos utilizados para este ensayo consiste en:
+El objetivo de este ensayo es verificar el alcance máximo del transceptor nrf24l01+, en diferentes condiciones. La disposición de los equipos utilizados para este ensayo consiste en:
 
 \begin{itemize}
 \item Utilizar la Raspberry Pi junto con un transceptor nrf24l01 + de antena interna como dispositivo primario de ubicación fija.
 \item Un dispositivo secundario móvil, compuesto por el Arduino UNO y nrf24l01+ de antena interna.
 \end{itemize}
 
-El objetivo de este ensayo fue establecer el alcance de los dispositivos bajo las siguientes condiciones en común: 
+Las condiciones en común a las que se exponen los dispositivos son: 
 \begin{itemize}
 \item Presencia de redes WiFi de diferente intensidad.
 \item Equipos electrónicos de bajo consumo.
 \end{itemize}
 
-Las condiciones antes mencionadas se mantuvieron a lo largo del ensayo y adicional a esto, se procedió a evaluar la respuesta ante situaciones con los siguientes tipos de obstrucción:  
+Se procedió a evaluar la respuesta ante situaciones con los siguientes tipos de obstrucción:  
 \begin{itemize}
 \item Obstrucción nula.
 \item Obstrucción total.
@@ -87,7 +87,7 @@ Las condiciones antes mencionadas se mantuvieron a lo largo del ensayo y adicion
 	\end{itemize} 
 \end{itemize}  
 
-El propósito de la prueba es medir la máxima distancia que puede existir entre los nodos primario y secundario, manteniendo una comunicación inalámbrica estable con una tasa de éxito de al menos 90 \% de mensajes transmitidos. En la figura \ref{fig:figura_c} se puede apreciar la metodología utilizada para el ensayo, inicialmente se parte de una distancia se confirmaba que la comunicación entre los dispositivos era correcta y se procedía mover el dispositivo secundario a una nueva ubicación y repetir nuevamente el proceso de verificación, así hasta alcanzar la máxima distancia a la que era posible establecer la comunicación entre los dispositivos. 
+El propósito de la prueba es medir la máxima distancia que puede existir entre los nodos primario y secundario, que permita una comunicación inalámbrica estable con una tasa de éxito de al menos 90 \% de mensajes transmitidos. En la figura \ref{fig:figura_c} se puede apreciar la metodología utilizada para el ensayo, se parte de una ubicación inicial, se confirma que la comunicación entre los dispositivos era correcta y se procedía mover el dispositivo secundario a una nueva ubicación y repetir nuevamente el proceso de verificación, así hasta alcanzar la máxima distancia a la que era posible establecer la comunicación entre los dispositivos. 
 
 \begin{figure}[ht]
 	\centering
@@ -96,7 +96,7 @@ El propósito de la prueba es medir la máxima distancia que puede existir entre
 	\label{fig:figura_c}
 \end{figure}
 
-Los resultados se muestran en la tabla \ref{tab:tabla_1}, donde se puede apreciar la susceptibilidad del sistema ante la obstrucción de objetos sólidos.
+Los resultados se muestran en la tabla \ref{tab:tabla_1}, se puede apreciar la susceptibilidad del sistema ante la obstrucción de objetos sólidos.
 
 \begin{table}[h]
 \centering
@@ -115,13 +115,11 @@ Los resultados se muestran en la tabla \ref{tab:tabla_1}, donde se puede aprecia
 \end{table}
 
 
-\subsection{Biblioteca RF24Mesh}
+\subsection{Características de la biblioteca RF24Mesh}
 
-El ensayo anterior establece los valores aproximados de alcance en diferentes condiciones, para este ensayo se requiere validar el funcionamiento de la biblioteca RF24Mesh. 
-El objetivo del ensayo se mantiene, registrar la máxima distancia que se puede alcanzar al separar los dispositivos, manteniendo una comunicación estable. Las condiciones de la prueba son similares al ensayo anterior, consiste en dos nodos en ubicaciones fijas separados una distancia de 7 m, pero esta vez se añade un segundo dispositivo secundario que se utilizará para medir el alcance en esta nueva configuración.
+El ensayo anterior establece los valores aproximados de alcance en diferentes condiciones. Para este ensayo se requiere validar el funcionamiento de la biblioteca RF24Mesh con un esquema similar, las condiciones de esta prueba consisten en situar dos nodos en ubicaciones fijas separados una distancia de 7 m, con un segundo dispositivo secundario móvil que se utilizará para medir el alcance.
 
-
-Los resultados del ensayo se pueden observar en la figura \ref{fig:figura_d}], se obtuvo una distancia máxima de 33 m, al comparar con los resultados del ensayo nrf24l01, se aprecia un incremento en el alcance del sistema, pero esto es debido a las características del dispositivo secundario 2, ya que cuenta con un sistema de amplificación de potencia.
+Los resultados del ensayo se pueden observar en la figura \ref{fig:figura_d}, se obtuvo una distancia máxima de 33 m, al comparar con los resultados del ensayo nrf24l01, se aprecia un incremento en el alcance del sistema. Debido a las características del dispositivo secundario 2, ya que cuenta con un sistema de amplificación de potencia.
 
 \begin{figure}[ht]
 	\centering
@@ -129,72 +127,46 @@ Los resultados del ensayo se pueden observar en la figura \ref{fig:figura_d}], s
 	\caption{Resultados del ensayo de la biblioteca RF24Mesh.}
 	\label{fig:figura_d}
 \end{figure}
-
+\break
 Adicional a la medición del alcance en la nueva configuración de dispositivos inalámbricos, se validan las siguientes funcionalidades de la biblioteca RF24Mesh:
 
 
 \begin{itemize}
 \item Gestión automática de dispositivos conectados: el sistema fue capaz de incluir de manera automática al dispositivo secundario 2 sin necesidad de configuraciones adicionales.
-\item Retransmisión de mensajes: El sistema cuenta con la posibilidad de retransmitir los mensajes entre los nodos hasta alcanzar el nodo destino, esto se comprueba ya que no fue posible establecer la comunicación de forma directa entre el dispositivo secundario 2 y el dispositivo primario, pero al existir el dispositivo secundario 1 en la red, este se encarga de recibir el mensaje del dispositivo secundario 2 y transmitirlo al dispositivo primario.
+\item Retransmisión de mensajes: El sistema cuenta con la posibilidad de retransmitir los mensajes entre los nodos hasta alcanzar el nodo destino, esto se comprueba ya que no fue posible establecer la comunicación de forma directa entre el dispositivo secundario 2 y el dispositivo primario. Sin embargo, al existir el dispositivo secundario 1 en la red, este se encarga de recibir el mensaje del dispositivo secundario 2 y transmitirlo al dispositivo primario.
 \end{itemize}
 
 
 \section{Hardware}
 
-Partiendo de los requerimientos del sistema, se realizó la fabricación de placas prototipo, para la verificación de los diseños de los módulos que componen el del sistema. A continuación se presentan los resultados obtenidos del diseño y fabricación de hardware.  
-
-
-\subsection{Prototipo: dispositivo primario.}
-
+Según los requerimientos del sistema, se realizó la fabricación de placas prototipo para la verificación de los diseños de los módulos que componen el del sistema. A continuación se presentan los resultados obtenidos del diseño y fabricación de hardware.  
 
 \subsection{Prototipo: dispositivo secundario.}
 
-El prototipo se basa en los esquemáticos de las figuras \ref{fig:figura_1},\ref{fig:figura_2},\ref{fig:figura_3}, cada uno de estos diseños fue probado mediante simulaciones realizadas, en la plataforma proteus. En la figura \ref{fig:figura_f} se presenta el prototipo realizado, a pesar de no ser un dispositivo secundario completo, su elaboración fue muy enriquecedora para el diseño final, influyó en una reducción importante de costos de producción tanto económicos como de tiempo invertido.  
+En la figura \ref{fig:figura_f} se expone el prototipo realizado. A pesar de no ser un dispositivo secundario completo, su elaboración fue muy enriquecedora para el diseño final, influyó en una reducción importante de costos de producción tanto económicos como de tiempo invertido.  
 
-inicialmente el objetivo de la fabricación del prototipo era permitir realizar pruebas reales del software durante toda la etapa de desarrollo del trabajo, pero adicional a los aportes de \textit{testing} de software, la elaboración proporcionó la información necesaria para detectar puntos de falla desapercibidos hasta el momento.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.45]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pendiente}
-	\label{fig:figura_1}
-\end{figure}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.45]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pendiente}
-	\label{fig:figura_2}
-\end{figure}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.45]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pendiente}
-	\label{fig:figura_3}
-\end{figure}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.45]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pendiente}
+	\includegraphics[scale=.09]{./Figures/Capitulo4/Figura_F.jpg}
+	\caption{Prototipo del dispositivo secundario}
 	\label{fig:figura_f}
 \end{figure}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.3]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pendiente}
-	\label{fig:figura_1}
-\end{figure}
 
 
-A simple vista se puede observar en la figura \ref{fig:figura_e} que el NodeMCU cuenta con GPIOS suficientes para la implementación del dispositivo secundario, ya que el número de recursos disponibles supera el número de recursos requeridos. El diseño descrito en el capítulo \ref{Chapter3} ejecuta un protocolo de reset automático, como parte de un mecanismo de  recuperación ante fallas en la comunicación inalámbrica, eléctricamente el disparador de este mecanismo es un estado digital alto en el pin RST, lo que implica, que es de vital importancia que el pin RST se mantenga en estado digital bajo en todo momento, hasta ser requerido por el algoritmo.
+Inicialmente el objetivo de la fabricación del prototipo era permitir realizar pruebas reales del software durante toda la etapa de desarrollo del trabajo, pero adicional a los aportes de \textit{testing} de software, la elaboración proporcionó la información necesaria para detectar puntos de falla desapercibidos hasta el momento.
+
+
+A simple vista se puede observar en la figura \ref{fig:figura_e}, que el NodeMCU cuenta con GPIOS suficientes para la implementación del dispositivo secundario, ya que el número de recursos disponibles supera el número de recursos requeridos. El diseño descrito en el capítulo \ref{Chapter3} ejecuta un protocolo de reset automático, como parte de un mecanismo de  recuperación ante fallas en la comunicación inalámbrica, eléctricamente el disparador de este mecanismo es un estado digital alto en el pin RST, lo que implica, que es de vital importancia que el pin RST se mantenga en estado digital bajo en todo momento, hasta ser requerido por el algoritmo.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.45]{./Figures/Capitulo4/Figura_E.png}
+	\includegraphics[scale=.55]{./Figures/Capitulo4/Figura_E.png}
 	\caption{Resumen de GPIOS de interés para la implementación el sistema}
 	\label{fig:figura_e}
 \end{figure}
 
-Durante el encendido del NodeMCU, se ejecuta una secuencia de arranque que altera el estado de diferentes GPIOS de forma aleatoria, la tabla \ref{tab:tabla_2} hace referencia a esta secuencia de arranque y muestra un listado de los pines afectados durante el arranque del chip. Al cruzar la información de la figura \ref{fig:figura_e}, con los pines que cumplen la condición de estabilidad durante el arranque según la tabla \ref{tab:tabla_2} podemos inferir que la aseveración realizada anteriormente no es correcta, el número de recursos solicitados es mayor al número de recursos disponibles, lo que hace imposible la implementación del diseño haciendo uso exclusivo de entradas y salidas digitales.
+Durante el encendido del NodeMCU, se ejecuta una secuencia de arranque que altera el estado de diferentes GPIOS, la tabla \ref{tab:tabla_2} muestra un listado de los pines afectados durante el arranque del chip. Al cruzar la información de la figura \ref{fig:figura_e}, con los pines que cumplen la condición de estabilidad durante el arranque según la tabla \ref{tab:tabla_2} podemos inferir que la aseveración realizada anteriormente no es correcta, el número de recursos solicitados es mayor al número de recursos disponibles, lo que hace imposible la implementación del diseño con uso exclusivo de entradas y salidas digitales.
 
 %tabla_2
 \begin{table}[h]
@@ -224,13 +196,13 @@ A0                & ADC0          & \begin{tabular}[c]{@{}c@{}}Entrada\\ analogi
 \end{table}
 
 
-La solución a este problema radica en aprovechar otra característica del NodeMCU, la medición del voltaje se realizará a través del convertidor analógico digital incluido en el microcontrolador, lo que permite compensar el déficit de GPIOS y mantener el diseño intacto, en concreto se utilizará para el monitoreo del estado del contacto seco de falla.
+La solución a este problema se centra en aprovechar otra característica del NodeMCU, la medición del voltaje se realizará a través del convertidor analógico digital incluido en el microcontrolador, lo que permite compensar el déficit de GPIOS y mantener el diseño intacto, en concreto se utilizará para el monitoreo del estado del contacto seco de falla.
 
 
 
-\subsection{Prototipo: dispositivo secundario.}
+\subsection{Dispositivos primario y secundario.}
 
-Al recopilar la información obtenida de la fabricación de los prototipos, el siguiente paso consistió en consolidar todas estas consideraciones en el esquemático del sistema, para dar inicio a la fase de elaboración de dispositivos para la fabricación, las figuras \ref{fig:figura_h} e \ref{fig:figura_i} presentan el circuito impreso generado en vista 3D y finalmente la placa en su estado final.
+Al recopilar la información obtenida de la fabricación de los prototipos, el siguiente paso consistió en consolidar todas estas consideraciones en el esquemático del sistema, para dar inicio a la fase de elaboración de dispositivos para la fabricación. Las figuras \ref{fig:figura_h} y \ref{fig:figura_i} presentan los circuitos impresos generados en vista 3D y las figuras \ref{fig:disp_prim} y \ref{fig:disp_sec} las placas fabricadas.
 
 \begin{figure}[ht]
 	\centering
@@ -241,9 +213,23 @@ Al recopilar la información obtenida de la fabricación de los prototipos, el s
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.3]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pendiente}
+	\includegraphics[scale=.3]{./Figures/Capitulo4/Figura_I.png}
+	\caption{Vista 3d del diseño de la placa del dispositivo primario.}
 	\label{fig:figura_i}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.25]{./Figures/Capitulo4/pendiente.jpg}
+	\caption{pediente.}
+	\label{fig:disp_prim}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.25]{./Figures/Capitulo4/pendiente.jpg}
+	\caption{pediente.}
+	\label{fig:disp_sec}
 \end{figure}
 
 
@@ -307,11 +293,11 @@ Al comparar los resultados obtenidos con los resultados esperados, se concluye q
 
 \subsection{Sistema con un dispositivo secundario.}
 
-Utilizando la misma metodología del ensayo número uno, se generan la figura \ref{fig:figura_k} y la tabla \ref{tab:tabla_4_1} y \ref{tab:tabla_4_2}, que describen el detalle del ensayo. Se confirma que todos los casos de prueba son ejecutados de forma satisfactoria, por lo que hasta este punto se puede concluir, que el dispositivo primario es capaz de comunicarse de forma inalámbrica con un dispositivo secundario, y además puede definir el estado correspondiente del sistema de detección, a partir de su estado propio y el estado del dispositivo secundario. 
+Al emplear la misma metodología del ensayo número uno, se generaron la figura \ref{fig:figura_k} y la tabla \ref{tab:tabla_4_1} y \ref{tab:tabla_4_2}, que describen el detalle del ensayo. Se confirma que todos los casos de prueba son ejecutados de forma satisfactoria, por lo que hasta este punto se puede concluir que el dispositivo primario es capaz de comunicarse de forma inalámbrica con un dispositivo secundario, y además puede definir el estado correspondiente del sistema de detección, a partir de su estado propio y el estado del dispositivo secundario. 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.3]{./Figures/Capitulo4/Figura_K.png}
+	\includegraphics[scale=.45]{./Figures/Capitulo4/Figura_K.png}
 	\caption{Diagrama CTM para ensayo con un dispositivo secundario }
 	\label{fig:figura_k}
 \end{figure}
@@ -419,19 +405,21 @@ alarma.\end{tabular}}}                 & \multirow{6}{*}{\begin{tabular}[c]{@{}c
 
 \subsection{Sistema con dos dispositivos secundarios.}
 
-Se mantiene la estrategia para el diseño de casos de prueba y se obtiene como resultado la figura \ref{fig:figura_l}, pero a diferencia del ensayo anterior, para este ensayo se incluye un nodo que permanecerá en estado de alarma durante todos los casos de prueba. Los resultados en esta ocasión son negativos, ya que ninguno de los casos de prueba es cumplido.
+Se mantiene la estrategia para el diseño de casos de prueba y se obtiene como resultado la figura \ref{fig:figura_l}, a diferencia del ensayo anterior, para este se incluye un nodo que permanecerá en estado de alarma durante todos los casos de prueba. Los resultados en esta ocasión son negativos, ya que ninguno de los casos de prueba es cumplido.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.3]{./Figures/Capitulo4/Figura_L.png}
+	\includegraphics[scale=.35]{./Figures/Capitulo4/Figura_L.png}
 	\caption{Diagrama CTM para sistema con dos dispositivos secundarios}
 	\label{fig:figura_l}
 \end{figure}
 
-Los casos de prueba fallan debido a que el sistema es incapaz de responder de forma correcta en un tiempo menor a diez segundos, analizando el algoritmo de gestión de comunicación inalámbrica en el dispositivo primario y compararlo con el algoritmo de transmisión de paquetes, se descubrió que el dispositivo secundario está configurado para la transmisión de información cada 15 ms y el dispositivo primario disponía de 10 ms como ventana de tiempo para hacer el análisis del sistema,  lo que genera un comportamiento inestable en el sistema, al no poder asegurar que el sistema reciba la información de todos los nodos que conforman la red en una ventana tan corta de tiempo.
-Un problema adicional que se presentó por la lectura inadecuada de los mensajes recibidos por el transceptor, fue la acumulación de mensajes, lo que ocasiona retrasos en la respuesta del sistema, que se agravaba a medida que el sistema se mantuvo en funcionamiento.
+Los casos de prueba fallan debido a que el sistema es incapaz de responder de forma correcta en un tiempo menor a diez segundos, al analizar el algoritmo de gestión de comunicación inalámbrica en el dispositivo primario y compararlo con el algoritmo de transmisión de paquetes, se descubrió que el dispositivo secundario está configurado para la transmisión de información cada 15 ms y el dispositivo primario disponía de 10 ms como ventana de tiempo para hacer el análisis del sistema.
 
- Al identificar la causa del problema, se planteó una modificación de los tiempos configurados para la comunicación inalámbrica en ambos dispositivos, de manera que se evite la desincronización del sistema. Los nuevos parámetros establecidos para la comunicación, son 200 ms para el dispositivo primario y 30 ms para el dispositivo secundario, esta nueva configuración permitió cumplir correctamente los casos de prueba. 
+Lo cual genera un comportamiento inestable, al no poder asegurar que el dispositivo primario reciba la información de todos los nodos que conforman la red en un tiempo tan reducido.
+Un problema adicional que se presentó fue la acumulación de mensajes, ya que al no leer el mensaje, el sistema lo encola para su procesamiento en la siguiente llamada, esto generaba retrasos de hasta 15 segundos en la actualización del estado.
+
+Al identificar la causa del problema, se planteó una modificación de los tiempos configurados para la comunicación inalámbrica en ambos dispositivos, de manera que se evite la desincronización del sistema. Los nuevos parámetros establecidos para la comunicación son 200 ms para el dispositivo primario y 30 ms para el dispositivo secundario, esta nueva configuración permitió cumplir correctamente los casos de prueba. 
       
 Un punto de mejora que resulta de la realización de este ensayo, es la posibilidad de incluir una interfaz que permita facilitar la inclusión de dispositivos al sistema, ya que la metodología actual de trabajo, hace imposible al usuario incluir un nodo sin conocer el funcionamiento del código y su estructura.
 
@@ -439,14 +427,88 @@ Un punto de mejora que resulta de la realización de este ensayo, es la posibili
 
 \subsection{Sistema con tres dispositivos secundarios.}
 
-Basados en la información recopilada de los ensayos previos, se propone elaborar un nuevo ensayo con un nodo adicional, pero esta vez con la intención de validar si la configuración de tiempo seleccionada es adecuada. El ensayo incluye de forma similar al ensayo número tres un nodo con un estado de sistema estático, con la diferencia de que en este caso el nuevo nodo permanecerá en estado normal, durante todos los casos de prueba, con el propósito de poder validar la velocidad de respuesta del sistema. El ensayo logró confirmar que el sistema funciona correctamente con los parámetros fijados en el ensayo con dos dispositivos secundarios.
+Basados en la información recopilada de los ensayos previos, se propone elaborar un nuevo ensayo con un nodo adicional, esta vez con la intención de validar si la configuración de tiempo utilizada es adecuada. El ensayo incluye un nodo con un estado de sistema estático, en este caso el nuevo nodo permanecerá en estado normal durante todos los casos de prueba, con el propósito de validar la velocidad de respuesta del sistema. El ensayo logró confirmar el correcto funcionamiento del sistema con la configuración de parámetros seleccionada en el ensayo con dos dispositivos secundarios.
 
+\subsection{Protocolo de recuperación .}
+
+El ensayo se orienta exclusivamente en comprobar el funcionamiento de la lógica de módulo de recuperación ante fallas de comunicación inalámbrica, se utiliza el esquema de la figura \ref{fig:ctm_protocolo} y se generan los casos de prueba de la tabla \ref{tab:protocolo}.
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.4]{./Figures/Capitulo4/CTM_PROTOCOLO.png}
+	\caption{Diagrama CTM para protocolo de recuperación ante fallas de comunicación inalámbrica}
+	\label{fig:ctm_protocolo}
+\end{figure}
+
+
+%\begin{table}[h]
+%\centering
+%\caption[Casos de prueba protocolo ante fallas]{Casos de prueba del ensayo de protocolo de recuperación.}
+%\begin{tabular}{cllll}
+%\toprule
+%\\
+%\bottomrule
+%\hline                                                                        
+%\end{tabular}
+%\label{tab:protocolo}
+%\end{table}
+
+
+\begin{table}[h]
+\centering
+\caption[Casos de prueba protocolo ante fallas]{Casos de prueba del ensayo de protocolo de recuperación.}
+\begin{tabular}{cllll}
+\toprule
+\textbf{\begin{tabular}[c]{@{}c@{}}Caso de\\ prueba\end{tabular}} & \multicolumn{1}{c}{\textbf{Parámetro}}                         & \multicolumn{1}{c}{\textbf{Valor}}                             & \multicolumn{1}{c}{\textbf{Comentario}}                                                                                                                             & \multicolumn{1}{c}{\textbf{\begin{tabular}[c]{@{}c@{}}Resultado\\ esperado\end{tabular}}}                                                          \\
+\midrule
+\multirow{5}{*}{1}                                                & \begin{tabular}[c]{@{}l@{}}Conexión\\ inalámbrica\end{tabular} & Establecida                                                    & \multirow{5}{*}{\begin{tabular}[c]{@{}l@{}}Comunicación\\ inalámbrica\\ funciona \\ correctamente \\ en el canal 122\end{tabular}}                                & \multirow{5}{*}{\begin{tabular}[c]{@{}l@{}}Permanecer en\\ el canal 122,\\ reinicio de\\ conteos de\\ intentos.\end{tabular}}                      \\
+                                                                  & Canal                                                          & 122                                                            &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  & \begin{tabular}[c]{@{}l@{}}Conteo de \\ ciclos\end{tabular}    & 1                                                              &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+\midrule                                                                  
+\multirow{7}{*}{2}                                                & \begin{tabular}[c]{@{}l@{}}Conexión\\ inalámbrica\end{tabular} & \begin{tabular}[c]{@{}l@{}}2 Intentos \\ fallidos\end{tabular} & \multirow{7}{*}{\begin{tabular}[c]{@{}l@{}}Comunicación \\ inalámbrica \\ fallida por \\ segunda vez,\\ en el segundo \\ intento con el \\ canal 120.\end{tabular}} & \multirow{7}{*}{\begin{tabular}[c]{@{}l@{}}Permanecer en\\ el canal\\ 120 e\\ incrementar\\ a 3 intentos\\ fallidos.\end{tabular}}                 \\
+                                                                  & Canal                                                          & 120                                                            &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  & \begin{tabular}[c]{@{}l@{}}Conteo de\\  ciclos\end{tabular}    & 2                                                              &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+\midrule
+\multirow{6}{*}{3}                                                & \begin{tabular}[c]{@{}l@{}}Conexión\\ inalámbrica\end{tabular} & \begin{tabular}[c]{@{}l@{}}5 Intentos\\ fallidos\end{tabular}  & \multirow{6}{*}{\begin{tabular}[c]{@{}l@{}}Comunicación\\ inalámbrica\\ fallida por\\ quinta vez, en\\ el tercer \\ intento con el\\ canal 122\end{tabular}}        & \multirow{6}{*}{\begin{tabular}[c]{@{}l@{}}Inicio de \\ tareas de \\ restitución\\ del sistema.\end{tabular}}                                      \\
+                                                                  & Canal                                                          & 122                                                            &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  & \begin{tabular}[c]{@{}l@{}}Conteo de\\ ciclos\end{tabular}     & 3                                                              &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+\multicolumn{1}{l}{}                                              &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+\midrule
+\multirow{5}{*}{4}                                                & \begin{tabular}[c]{@{}l@{}}Conexión\\ inalámbrica\end{tabular} & \begin{tabular}[c]{@{}l@{}}5 Intentos\\ fallidos\end{tabular}  & \multirow{5}{*}{\begin{tabular}[c]{@{}l@{}}Comunicación\\ inalámbrica\\ fallida por\\ quinta vez, en \\ un primer \\ intento en el \\ canal 120.\end{tabular}}      & \multirow{5}{*}{\begin{tabular}[c]{@{}l@{}}Cambio del\\ canal 120 al\\ canal 122 y\\ reinicio de\\ conteo de\\ intentos \\ fallidos.\end{tabular}} \\
+                                                                  & Canal                                                          & 120                                                            &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  & \begin{tabular}[c]{@{}l@{}}Conteo de\\ ciclos\end{tabular}     & 1                                                              &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+                                                                  &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                    \\
+\multicolumn{1}{l}{}                                              &                                                                &                                                                &                                                                                                                                                                     &                                                                                                                                                   
+\\
+\bottomrule
+\hline                                                                        
+\end{tabular}
+\label{tab:protocolo}
+\end{table}
+
+
+
+
+
+
+Este ensayo en particular, permite identificar el uso que tuvo la biblioteca RF24Mesh, ya que a partir de su gestión del envío de paquetes se genera toda la estructura de carga de la información, su visualización y el protocolo de recuperación. Los resultados son satisfactorios, se logró comprobar que el sistema tiene la capacidad de restituirse de forma automática ante posibles casos de falla.
 
 
 \section{Prueba de sistema}
 
 
-Los resultados obtenidos hasta este punto manifestaron errores y segmentos de código que debían ser atendidos, por lo que la finalidad de este ensayo es evaluar el impacto de los cambios realizados. Los casos de prueba de este sistema serán los descritos en las tablas \ref{tab:tabla_4_1} y \ref{tab:tabla_4_2}, correspondientes al ensayo con un dispositivo secundario, con la diferencia de que en esta ocasión, se incluyen las siguientes características al sistema: 
+Los resultados obtenidos hasta este punto manifestaron errores y segmentos de código que debían ser atendidos, por lo que la finalidad de este ensayo es evaluar el impacto de los cambios realizados. Los casos de prueba de este sistema serán los descritos en las tablas \ref{tab:tabla_4_1} y \ref{tab:tabla_4_2}, correspondientes al ensayo con un dispositivo secundario, con la diferencia de que se incluyen las siguientes características al sistema: 
 
 \subsubsection{Interfaz web}
 Interfaz web para la visualización del estado actual del sistema, desarrollado en la plataforma Node-RED, con la limitación de que debemos encontrarnos conectados a la misma red que el dispositivo primario. Un ejemplo de la misma puede observarse en la la figura \ref{fig:figura_m}.
@@ -460,7 +522,7 @@ Interfaz web para la visualización del estado actual del sistema, desarrollado 
 \end{figure}
 
 \subsubsection{Aplicación Android}
-Aplicación móvil para dispositivos Android, conectada a la plataforma de Firebase para el monitoreo del sistema desde cualquier ubicación con conexión a internet, en la \ref{fig:figura_n} se muestra una captura de pantalla de la interfaz.
+Aplicación móvil para dispositivos Android, conectada a la plataforma de Firebase para el monitoreo del sistema desde cualquier ubicación con conexión a internet. En la \ref{fig:figura_n} se muestra una captura de pantalla de la interfaz.
 
 \begin{figure}[ht]
 	\centering
@@ -470,17 +532,19 @@ Aplicación móvil para dispositivos Android, conectada a la plataforma de Fireb
 \end{figure}
 
 \subsubsection{Histórico de eventos como base de datos}
-Registro de eventos en bases de datos relacionales, esta funcionalidad permite al sistema registrar de forma ordenada los eventos y la posibilidad de analizar el histórico de eventos del sistema con el uso del lenguaje SQL. La figura \ref{fig:figura_p} corresponde a un ejemplo de la base de datos generada.
+Registro de eventos en bases de datos relacionales, esta funcionalidad permite al sistema registrar de forma ordenada los eventos y la posibilidad de analizar el histórico del sistema con el uso del lenguaje SQL. La figura \ref{fig:figura_p} corresponde a un ejemplo de la base de datos generada.
+
+\break
 
 \begin{figure}[ht]
+
 	\centering
 	\includegraphics[scale=.45]{./Figures/Capitulo4/Figura_P.png}
 	\caption{Ejemplo de histórico de eventos registrados en la base de dato.}
 	\label{fig:figura_p}
 \end{figure}
-
 \subsubsection{Estado de red de dispositivos en base de datos}
-Registro de nodos conectados al sistema en bases de datos relacionales, similar a la base de datos de registro de eventos, se incluye una base de datos con el registro de los nodos conectados, su estado actual y si se encuentran comunicándose correctamente con el dispositivo primario o no, se puede ver un ejemplo de esta base de datos en la figura \ref{fig:figura_o}.
+Registro de nodos conectados al sistema en bases de datos relacionales -similar a la base de datos de registro de eventos- se incluye una base de datos con el registro de los nodos conectados, su estado actual y si se encuentran comunicándose correctamente con el dispositivo primario o no. Se puede ver un ejemplo de esta base de datos en la figura \ref{fig:figura_o}.
 
 
 \begin{figure}[ht]
@@ -490,15 +554,16 @@ Registro de nodos conectados al sistema en bases de datos relacionales, similar 
 	\label{fig:figura_o}
 \end{figure}
 
+\break
 
 \subsubsection{Estado de red de dispositivos en base de datos}
-textit{Logging} gestionado por la biblioteca textit{syslog}, se hace uso del recurso del archivo textit{syslog} para facilitar el análisis en caso de fallas, registro de tareas de mantenimiento del sistema y uso como herramienta de desarrollo para futuros proyectos. Una vista del textit{syslog} del sistema en funcionamiento se puede apreciar en la figura \ref{fig:figura_q}.
+\textit{Logging} gestionado por la biblioteca \textit{syslog}, se hace uso del recurso del archivo \textit{syslog} para facilitar el análisis en caso de fallas, registro de tareas de mantenimiento del sistema y uso como herramienta de desarrollo para futuros proyectos. Una vista del \textit{syslog} del sistema en funcionamiento se puede apreciar en la figura \ref{fig:figura_q}.
 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=.65]{./Figures/Capitulo4/Figura_Q.png}
-	\caption{Vista del archivo textit{syslog} y los mensajes registrados por sistema de monitoreo.}
+	\caption{Vista del archivo \textit{syslog} y los mensajes registrados por sistema de monitoreo.}
 	\label{fig:figura_q}
 \end{figure}
 
