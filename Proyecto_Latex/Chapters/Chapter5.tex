@@ -13,17 +13,17 @@
 
 \section{Conclusiones generales }
 
-El trabajo finaliza con el desarrollo de un sistema de monitoreo remoto, compatible con sistemas de detección que funcionen con contactos secos programables, además cuenta con la capacidad de poder establecer comunicación inalámbrica con diferentes dispositivos, en una estructura de red de nodos repetidores. Cada nodo ejecuta un protocolo de recuperación ante pérdidas de comunicación, que les permite restaurarse de forma automática ante diferentes eventos de falla, evitando en la gran mayoría de ocasiones el traslado de personal técnico al lugar de la instalación. 
+El trabajo finaliza con el desarrollo de un sistema de monitoreo remoto, compatible con sistemas de detección que funcionen con contactos secos programables. Además cuenta con la capacidad de establecer comunicación inalámbrica con diferentes dispositivos, en una estructura de red de nodos repetidores. Cada nodo ejecuta un protocolo de recuperación ante pérdidas de comunicación, que les permite restaurarse de forma automática ante diferentes eventos de falla, lo que evita en la gran mayoría de las ocasiones el traslado de personal técnico al lugar de la instalación. 
 
-Este sistema fue puesto a prueba en obra para validar su correcto funcionamiento, se utilizaron dispositivos con acceso web y se comprobó que el usuario pudiese visualizar el estado actual  de su sistema de seguridad de forma remota. 
+Este sistema fue puesto a prueba en obra para validar su correcto funcionamiento. Se utilizaron dispositivos con acceso web y se comprobó que el usuario pudiese visualizar el estado actual  de su sistema de seguridad de forma remota. 
 
 Se resaltan las prácticas que fueron clave para cada etapa del proyecto:
 
 \begin{itemize}
-\item Planificación: aunque la planificación no se ejecutó según lo planteado originalmente, se considera una herramienta indispensable, ya que permite monitorear el progreso de las diferentes actividades que  integran el proyecto, así como identificar  retrasos  y/o  tareas que requieren mayor dedicación, lo cual permite  tomar las acciones necesarias en el tiempo adecuado para cumplir con los objetivos planteados.
-\item Diseño: utilizar un patrón de diseño, combinado con una estrategia de desarrollo de software modularizado, permitió generar una estructura de código enfocado principalmente en escalabilidad. Este diseño evolucionó en una metodología de desarrollo, fundamentado en la elaboración de pequeños bloques funcionales probados con elementos de  \textit{testing}. Lo cual facilitó la inclusión de los conocimientos adquiridos a lo largo de la carrera de forma organizada.  
-\item Software: a partir de las experiencias previas con sistemas operativos, fue posible realizar dos dispositivos funcionales, basados en sistemas operativos diferentes. El dispositivo primario aprovecha la gestión de un sistema operativo de propósito general para establecer una interfaz web bidireccional, asimismo el dispositivo secundario utiliza un sistema operativo cooperativo, que brinda compatibilidad con diferentes microcontroladores y a la vez escalabilidad al proyecto.   
-\item Hardware: La fabricación de un dispositivo prototipo, complementa la metodología de desarrollo de software explicada anteriormente, generando una plataforma de prueba que permitió la elaboración de un sistema de pruebas continuas a medida que elsistema se iba concretando. Un aporte invaluable para el trabajo fueron los conocimientos adquiridos en el curso de diseño de circuitos impresos, donde se realizaron cambios al diseño original, que se ven reflejados en mejoras en las características de robustez, manufacturabilidad, detección de fallas y la generación documentación adecuada para el mantenimiento y evolución del proyecto. 
+\item Planificación: aunque esta no se ejecutó según lo planteado originalmente, se considera una herramienta indispensable, ya que permite monitorear el progreso de las diferentes actividades que  integran el proyecto, así como identificar  retrasos  y/o  tareas que requieren mayor dedicación. Esto posibilita tomar las acciones necesarias en el tiempo adecuado para cumplir con los objetivos planteados.
+\item Diseño: utilizar un patrón de diseño, combinado con una estrategia de desarrollo de software modularizado, permitió generar una estructura de código enfocado principalmente en escalabilidad. Este diseño evolucionó en una metodología de desarrollo, fundamentado en la elaboración de pequeños bloques funcionales probados con elementos de  \textit{testing}. Esto facilitó la inclusión de los conocimientos adquiridos a lo largo de la carrera de forma organizada.  
+\item Software: a partir de las experiencias previas con sistemas operativos, fue posible realizar dos dispositivos funcionales, basados en sistemas operativos diferentes. El dispositivo primario aprovecha la gestión de un sistema operativo de propósito general para establecer una interfaz web bidireccional; asimismo el dispositivo secundario utiliza un sistema operativo cooperativo, que brinda compatibilidad con diferentes microcontroladores y a la vez escalabilidad al proyecto.   
+\item Hardware: La fabricación de un dispositivo prototipo complementa la metodología de desarrollo de software explicada anteriormente, que genera una plataforma de prueba que permitió la elaboración de un sistema de pruebas continuas a medida que el sistema se iba concretando. Un aporte invaluable para el trabajo fueron los conocimientos adquiridos en el curso de diseño de circuitos impresos, donde se realizaron cambios al diseño original, que se ven reflejados en mejoras en las características de robustez, manufacturabilidad, detección de fallas y la generación documentación adecuada para el mantenimiento y evolución del proyecto. 
 \end{itemize}
 
 
@@ -35,10 +35,10 @@ Se resaltan las prácticas que fueron clave para cada etapa del proyecto:
 El sistema actual cumple con los requerimientos planteados inicialmente. Sin embargo, durante su desarrollo surgieron puntos de mejora y trabajos a desarrollar, entre los cuales se resaltan los siguientes:
 
 \begin{itemize}
-\item Aprovechar la conectividad WiFi del dispositivo secundario, para establecer una vía alterna para la carga del estado del sistema en el servidor web, en caso de fallas en el dispositivo primario.
+\item Aprovechar la conectividad WiFi del dispositivo secundario, en función de establecer una vía alterna para la carga del estado del sistema en el servidor web, en caso de fallas en el dispositivo primario.
 \item Desarrollo de una interfaz web personalizada, que complemente los avances realizados en la plataforma Node-RED. 
 \item Diseño de un tercer dispositivo que funcione como nodo repetidor, que prescinda de funcionalidades adquisición de información y se enfoque en extender el alcance de la comunicación por radiofrecuencia.    
-\item Implementación de un servidor que regule el acceso de los usuarios, que además permita visualizar la información desde cualquier punto con conectividad a internet.
+\item Implementación de un servidor que regule el acceso de los usuarios, que además permita visualizar la información desde cualquier punto con conectividad a Internet.
 \end{itemize}
 
 El sistema actual se basa en el monitoreo de contactos secos programables, con el objetivo de mantener compatibilidad con diferentes marcas comerciales. A la vez existen segmentos del mercado con requerimientos más exigentes. Algunos posibles proyectos son:
@@ -46,7 +46,7 @@ El sistema actual se basa en el monitoreo de contactos secos programables, con e
 
 \begin{itemize}
 \item Hacer uso del puerto de conexión de impresoras de algunas marcas comerciales de centrales de alarma de incendio, para obtener un mayor detalle de los eventos que ocurren en la instalación.
-\item Diseñar una interfaz gráfica que se adecue a cada obra, facilitando al usuario la documentación de la instalación, tal como información de los equipos instalados, instrucciones ante diferentes eventos, planos con el estado de real de los dispositivos, datos históricos, próximos mantenimientos, etc.
+\item Diseñar una interfaz gráfica que se adecue a cada obra, que facilite al usuario la documentación de la instalación, tal como información de los equipos instalados, instrucciones ante diferentes eventos, planos con el estado de real de los dispositivos, datos históricos, próximos mantenimientos, etc.
 \end{itemize}
 
-Un aporte significativo que se espera poder alcanzar con esta serie de proyectos, consiste en establecer un sistema con la robustez y confiabilidad suficiente, para instaurar un vínculo con personal capacitado. Lo cual puede favorecer a generar una respuesta temprana ante situaciones de incendio, disminuyendo los daños ocasionados y salvaguardando de manera eficaz la vida de las personas en situaciones de emergencia. 
+Un aporte significativo que se espera poder alcanzar con esta serie de proyectos consiste en establecer un sistema con la robustez y confiabilidad suficiente para instaurar un vínculo con personal capacitado. Ello puede favorecer a generar una respuesta temprana ante situaciones de incendio, que disminuya los daños ocasionados y salvaguarde de manera eficaz la vida de las personas en situaciones de emergencia. 
