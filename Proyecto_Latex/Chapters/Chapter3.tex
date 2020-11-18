@@ -47,7 +47,7 @@ En este capítulo se exponen los detalles del diseño de los dispositivos primar
 
 \section{Sistemas complejos de detección de incendio}
 
-Un sistema de detección de incendio no se limita necesariamente a un solo edificio; en instalaciones de mayor escala conformadas por varias infraestructuras ya sean industriales o residenciales, es común utilizar sistemas complejos de detección de incendio. También se utilizan en áreas como depósitos de materiales, salas de máquinas o cuartos de generadores eléctricos de respaldo, y en cuartos con tanques de almacenamiento de agua para sistemas de bombeo de extinción de incendios.
+Un sistema de detección de incendio no se limita necesariamente a un solo edificio. En instalaciones de mayor escala conformadas por varias infraestructuras ya sean industriales o residenciales, es común utilizar sistemas complejos de detección de incendio. También se utilizan en áreas como depósitos de materiales, salas de máquinas o cuartos de generadores eléctricos de respaldo, y en cuartos con tanques de almacenamiento de agua para sistemas de bombeo de extinción de incendios.
 
 En este nivel los sistemas suelen estar compuestos por más de una central de alarma de incendio, que pueden estar interconectadas entre sí y formar una red de dispositivos de detección. Dependiendo del nivel de integración, los sistemas pueden tener total independencia o por el contrario funcionar como una única unidad de detección, por lo que  no siempre es una tarea sencilla identificar la ubicación de origen de un evento.
 
@@ -63,7 +63,7 @@ Un ejemplo de una instalación con potencial para un sistema de detección de in
 
 \section{Criterios de diseño}
 
-El sistema corresponde al primero de una serie de proyectos que tienen como objetivo la generación de alternativas de monitoreo de sistemas de detección de incendio. En esta etapa el objetivo propuesto es reportar al usuario únicamente el estado de la instalación, pero en futuros proyectos se desea alcanzar un mayor nivel de detalle; a continuación se describen los criterios considerados para la selección de los componentes:
+El sistema corresponde al primero de una serie de proyectos que tienen como objetivo la generación de alternativas de monitoreo de sistemas de detección de incendio. En esta etapa el objetivo propuesto es reportar al usuario únicamente el estado de la instalación, pero en futuros proyectos se desea alcanzar un mayor nivel de detalle. A continuación se describen los criterios considerados para la selección de los componentes:
 
 Escalabilidad: el sistema debe contar con los recursos necesarios para la integración de nuevas funcionalidades o servicios.
 
@@ -113,7 +113,7 @@ El dispositivo primario procesa el estado local y los estados remotos para gener
 
 El diseño general del dispositivo primario se puede observar en la figura \ref{fig:figura_c3}.
 
-\begin{figure}[]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=.4]{./Figures/Capitulo3/Fig_C3.png}
 	\caption{Arquitectura del dispositivo primario.}
@@ -122,7 +122,7 @@ El diseño general del dispositivo primario se puede observar en la figura \ref{
 
 \subsection{Dispositivo secundario}
 
-Este dispositivo realiza el  monitoreo del contacto de alarma y del contacto de falla, además cuenta con módulo destinado a la gestión de la transmisión de información mediante comunicación inalámbrica. El sistema presenta la información al usuario de acuerdo a la condición existente en la instalación: rojo indica alarma, amarillo indica falla y verde, condición normal.
+Este dispositivo realiza el  monitoreo del contacto de alarma y del contacto de falla, y cuenta con módulo destinado a la gestión de la transmisión de información mediante comunicación inalámbrica. El sistema presenta la información al usuario de acuerdo a la condición existente en la instalación: rojo indica alarma, amarillo indica falla y verde, condición normal.
 
 
 Incluir en el diseño un dispositivo secundario permite agregar un equipo adicional a monitorear, y además incrementa el alcance de la comunicación inalámbrica, ya que cada nodo actúa como nodo-repetidor. En la figura \ref{fig:figura_d3} se observa el diseño general del dispositivo secundario.
@@ -154,11 +154,11 @@ Esta sección describe el  diseño del hardware utilizado para los dispositivos 
 
 \subsection{Hardware del dispositivo primario}
 
-Los esquemáticos empleados para la implementación del hardware del dispositivo primario se pueden observar en las figuras \ref{fig:figura_f3}, \ref{fig:figura_g3} y \ref{fig:figura_h3}. El diseño fue concretado como un poncho para la Raspberry Pi, compuesto por los siguientes módulos detallados a continuación:
+Los esquemáticos empleados para la implementación del hardware del dispositivo primario se pueden observar en las figuras \ref{fig:figura_f3}, \ref{fig:figura_g3} y \ref{fig:figura_h3}. El diseño fue concretado como un poncho para la Raspberry Pi, compuesto por los módulos detallados a continuación:
 
-\subsubsection{Módulo de monitoreo de contactos secos}
+\subsubsection{Módulo de monitoreo de contacto seco}
 
-El diseño de este módulo hace uso de los contactos normal abierto del dispositivo a monitorear para la indicación de alarma o falla en el sistema. La indicación correspondiente se hace a través del accionamiento de un relé interno que modifica el estado del circuito asociado.
+El diseño de este módulo hace uso del contacto normal abierto del dispositivo a monitorear para la indicación de alarma o falla en el sistema. La indicación correspondiente se hace a través del accionamiento de un relé interno que modifica el estado del circuito asociado.
 La figura \ref{fig:figura_f3} muestra el esquema del módulo de monitoreo de contacto seco.
 
 \begin{figure}[]
@@ -301,7 +301,7 @@ Este módulo clasifica el estado de la comunicación en cuatro posibles estados:
 
 \subsubsection{Lógica del sistema}
 
-El dispositivo primario contiene la lógica de las transiciones posibles para el sistema, la cual se puede analizar a partir del esquema de la figura \ref{fig:figura_p3} que ilustra cómo deben ser los cambios de estado a partir de las condiciones de transición presentes. La figura introduce los  ``estados previos'' que permiten generar acciones antes de la activación de un estado específico y más importante aún, funcionan como un elemento de validación, ya que hacen necesario que la transición entre estados principales (alarma y falla, alarma, normal y falla) se realice únicamente ante dos transiciones del mismo tipo.
+El dispositivo primario contiene la lógica de las transiciones posibles para el sistema, que se puede analizar a partir del esquema de la figura \ref{fig:figura_p3} que ilustra cómo deben ser los cambios de estado a partir de las condiciones de transición presentes. La figura introduce los  ``estados previos'' que permiten generar acciones antes de la activación de un estado específico y más importante aún, funcionan como un elemento de validación, ya que hacen necesario que la transición entre estados principales (alarma y falla, alarma, normal y falla) se realice únicamente ante dos transiciones del mismo tipo.
 
 \begin{figure}[]
 	\centering
@@ -387,9 +387,9 @@ La plataforma Node-RED gestiona la interacción con el usuario a nivel local, lo
 
 \subsubsection{Firebase}
 
-La base de datos de Firebase se actualiza a partir del archivo histórico de eventos, de donde se extrae la información más reciente y se carga a partir de un script de python en el servidor web de Firebase.
+La base de datos de Firebase se actualiza a partir del archivo histórico de eventos, de donde se extrae la información más reciente y se carga a partir de un script de Python en el servidor web de Firebase.
 
-Este módulo propone una alternativa para el monitoreo del sistema de forma remota desde cualquier punto con conexión a  Internet. La plataforma brinda un servicio de \textit{realtime database}, que posee integraciones con diferentes elementos como páginas web, aplicaciones Android o IOS. El módulo Firebase no provee al usuario la posibilidad de configurar ningún parámetro; en otras palabras funciona únicamente para monitorear el estado del sistema de forma remota.
+Este módulo propone una alternativa para el monitoreo del sistema de forma remota desde cualquier punto con conexión a  Internet. La plataforma brinda un servicio de \textit{realtime database}, que posee integraciones con diferentes elementos como páginas web, aplicaciones Android o IOS. El módulo Firebase no provee al usuario la posibilidad de configurar ningún parámetro. En otras palabras funciona únicamente para monitorear el estado del sistema de forma remota.
 
 \subsubsection{Bases de datos}
 

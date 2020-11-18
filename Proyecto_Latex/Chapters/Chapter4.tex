@@ -8,7 +8,11 @@
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-Este capítulo contiene la  descripción de  las pruebas realizadas para la validación del sistema. La metodología para esta fase parte desde pruebas unitarias de los módulos que componen el equipo, ensayos de inserción de fallas, hasta alcanzar el nivel de pruebas de sistema.
+En este capítulo se detallan las pruebas que fueron realizadas sobre los distintos
+módulos de hardware y software que componen al robot así como los resultados
+de las pruebas de campo que se llevaron a cabo.
+
+Este capítulo contiene la  descripción de las pruebas realizadas para la validación del sistema. Los diferentes ensayos se realizaron sobre los módulos de hardware y software de los dispositivos primario y secundario, inserción  de fallas y pruebas generales del sistema.
 
 \section{Validación de componentes}
 \label{sec:validacion_componentes}
@@ -34,7 +38,7 @@ Materiales utilizados:
 \item Adaptador 120-240 VA a 5V DC USB.
 \end{itemize}
 
-La figura \ref{fig:figura_a} muestra un esquema de la metodología empleada para realizar la primera prueba de este ensayo. La Raspberry Pi se seleccionó como el único nodo fijo durante estos ensayos. El resto de los dispositivos adoptará sucesivamente el rol de nodo secundario uno a la vez. Los resultados de esta prueba fueron desalentadores, ya que para cada dispositivo el porcentaje de mensajes exitosos apenas alcanzó un 0,5 \%.
+La figura \ref{fig:figura_a} muestra un esquema de la metodología empleada para realizar la primera prueba de este ensayo. La Raspberry Pi se seleccionó como el único nodo fijo durante estos ensayos. El resto de los dispositivos adoptará sucesivamente el rol de nodo secundario uno a la vez. Los resultados de esta no cubrieron las expectativas esperadas, ya que para cada dispositivo el porcentaje de mensajes exitosos apenas alcanzó un 0,5 \% como máximo.
 
 \vspace{5mm} %5mm vertical space
 
@@ -64,7 +68,7 @@ Estos resultados evidencian lo susceptible que es el sistema a ruido en la alime
 \subsection{Pruebas de alcance}
  
 
-El objetivo de este ensayo es verificar el alcance máximo del transceptor nrf24l01+, en diferentes condiciones. La disposición de los equipos utilizados para este ensayo consiste en:
+El objetivo de este ensayo fue verificar el alcance máximo del transceptor nrf24l01+, en diferentes condiciones. La disposición de los equipos utilizados para este ensayo consiste en:
 
 \begin{itemize}
 \item Raspberry Pi junto con un transceptor nrf24l01 + de antena interna como dispositivo primario de ubicación fija.
@@ -414,7 +418,7 @@ Los casos de prueba fallaron debido a que el sistema fue incapaz de responder de
 
 Ello generaba un comportamiento inestable, al no poder asegurar que el dispositivo primario reciba la información de todos los nodos que conforman la red en un tiempo tan reducido. Un problema adicional que se presentó fue la acumulación de mensajes, ya que al no leer el mensaje, el sistema lo guarda para su procesamiento en la siguiente llamada, esto generaba retrasos de hasta 15 segundos en la actualización del estado. Al identificar la causa del problema, se planteó una modificación de los tiempos configurados para la comunicación inalámbrica en ambos dispositivos. 
 
-Los nuevos parámetros establecidos para la comunicación son 200 ms para el dispositivo primario y 30 ms para el dispositivo secundario; esta nueva configuración permitió cumplir correctamente los casos de prueba.
+Los nuevos parámetros establecidos para la comunicación son 200 ms para el dispositivo primario y 30 ms para el dispositivo secundario. Esta nueva configuración permitió cumplir correctamente los casos de prueba.
 
       
 Un punto de mejora que resulta de la realización de este ensayo es la posibilidad de incluir una interfaz que permita facilitar la inclusión de dispositivos al sistema, ya que la metodología actual de trabajo hace imposible al usuario incluir un nodo sin conocer el funcionamiento del código y su estructura.
@@ -423,7 +427,7 @@ Un punto de mejora que resulta de la realización de este ensayo es la posibilid
 
 Basados en la información recopilada de los ensayos previos, se propuso elaborar un nuevo ensayo con un nodo adicional, esta vez con la intención de validar si la configuración de tiempo utilizada fue adecuada. El ensayo incluyó un nodo con un estado de sistema estático. En este caso el nuevo nodo permanecerá en estado normal durante todos los casos de prueba, con el propósito de validar la velocidad de respuesta del sistema. El ensayo logró confirmar el correcto funcionamiento del sistema con la configuración de parámetros seleccionada en el ensayo con dos dispositivos secundarios.
 
-\subsection{Protocolo de recuperación .}
+\subsection{Protocolo de recuperación}
 
 El ensayo se orientó exclusivamente en comprobar el funcionamiento de la lógica de módulo de recuperación ante fallas de comunicación inalámbrica. Se utilizó el esquema de la figura \ref{fig:ctm_protocolo} y se generan los casos de prueba de la tabla \ref{tab:protocolo}.
 
@@ -520,7 +524,7 @@ Aplicación móvil para dispositivos Android, conectada a la plataforma de Fireb
 \end{figure}
 
 \subsubsection{Histórico de eventos como base de datos}
-El registro de esta funcionalidad permite al sistema registrar de forma ordenada los eventos y la posibilidad de analizar el histórico del sistema con el uso del lenguaje SQL. La figura \ref{fig:figura_p} corresponde a un ejemplo de histórico de eventos registrados en la base de datos generada.
+El registro de esta funcionalidad permite al sistema registrar de forma ordenada los eventos y otorga la posibilidad de analizar el histórico del sistema con el uso del lenguaje SQL. La figura \ref{fig:figura_p} corresponde a un ejemplo de histórico de eventos registrados a partir de una base de datos generada.
 
 \break
 
@@ -533,13 +537,13 @@ El registro de esta funcionalidad permite al sistema registrar de forma ordenada
 \end{figure}
 
 \subsubsection{Estado de red de dispositivos en base de datos}
-Registro de nodos conectados al sistema en bases de datos --similar a la base de datos de registro de eventos--. Se incluye una base de datos con el registro de los nodos conectados, su estado actual y si se encuentran comunicándose correctamente con el dispositivo primario o no. La figura \ref{fig:figura_o}  muestra un ejemplo de la base de datos generada de una red de dispositivos inalámbricos.
+Registro de nodos conectados al sistema en bases de datos --similar a la base de datos de registro de eventos--. Se incluye una base de datos con el registro de los nodos conectados, su estado actual y si se encuentran comunicándose correctamente con el dispositivo primario o no. La figura \ref{fig:figura_o}  muestra un ejemplo de la base de datos generada a partir de una red de dispositivos inalámbricos.
 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=.45]{./Figures/Capitulo4/Figura_O.png}
-	\caption{Ejemplo de la base de datos generada de una red de dispositivos inalámbricos .}
+	\caption{Ejemplo de la base de datos generada de una red de dispositivos inalámbricos.}
 	\label{fig:figura_o}
 \end{figure}
 
