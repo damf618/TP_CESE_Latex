@@ -49,7 +49,6 @@ La figura \ref{fig:figura_a} muestra un esquema de la metodología empleada para
 	\label{fig:figura_a}
 \end{figure}
 
-
 Se inició una fase de búsqueda de posibles causas, que comenzó por una revisión de ejemplos de uso del dispositivo --según la documentación de la biblioteca-- así como la revisión de pruebas con resultados similares de diferentes desarrolladores y su experiencia reportada. En función de esto, se identificó que un elemento clave es proveer al dispositivo de una fuente de alimentación estable.
 
 Una vez identificada una posible solución, se reemplazó el adaptador por un equipo de iguales características y de mayor calidad; sen realizó nuevamente el ensayo. Los resultados de esta segunda prueba se consideran satisfactorios y están representados en la figura \ref{fig:figura_b}, en la que se puede apreciar que el menor valor corresponde a un 98 \% de éxito en mensajes transmitidos.
@@ -497,6 +496,33 @@ El ensayo se orientó exclusivamente en comprobar el funcionamiento de la lógic
 
 Este ensayo en particular permitió identificar el uso que tuvo la biblioteca RF24Mesh, ya que a partir de su gestión del envío de paquetes se genera toda la estructura de carga de la información, su visualización y el protocolo de recuperación. Los resultados son satisfactorios, se logró comprobar que el sistema tiene la capacidad de restituirse de forma automática ante posibles casos de falla.
 
+\subsection{Verificación de requisitos}
+
+La tabla \ref{tab:tabla_req} indica la asociación de cada ensayo con un conjunto de requerimientos a verificar. 
+
+\begin{table}[h]
+\centering
+\caption[Verificación de requerimientos]{Verificación de requerimientos por ensayo.}
+\begin{tabular}{ccc}
+\toprule
+\textbf{Ensayo}                                                                         & \textbf{Requisitos}                                                   & \textbf{Exentos}                                                                            \\
+4.3.1 Estado local                                                                      & \begin{tabular}[c]{@{}c@{}}2.4.1\\ 2.4.2\end{tabular}                 & -                                                                                           \\
+\toprule
+\begin{tabular}[c]{@{}c@{}}4.3.2 Sistema con un dispositivo\\ secundario\end{tabular}   & \begin{tabular}[c]{@{}c@{}}2.4.1\\ 2.4.2\\ 2.4.3\\ 2.4.4\end{tabular} & \begin{tabular}[c]{@{}c@{}}2.4.3 - 3.b\\ 2.4.3 - 3.c\\ 2.4.3 - 3.e\\ 2.4.4 - 3\end{tabular} \\
+\toprule
+\begin{tabular}[c]{@{}c@{}}4.3.3 Sistema con dos dispositivo\\ secundario\end{tabular}  & \begin{tabular}[c]{@{}c@{}}2.4.1\\ 2.4.2\\ 2.4.3\\ 2.4.4\end{tabular} & \begin{tabular}[c]{@{}c@{}}2.4.3 - 3.b\\ 2.4.3 - 3.c\\ 2.4.4 - 3\end{tabular}               \\
+\toprule
+\begin{tabular}[c]{@{}c@{}}4.3.4 Sistema con tres dispositivo\\ secundario\end{tabular} & \begin{tabular}[c]{@{}c@{}}2.4.1\\ 2.4.2\\ 2.4.3\\ 2.4.4\end{tabular} & \begin{tabular}[c]{@{}c@{}}2.4.3 - 3.b\\ 2.4.4 - 3\end{tabular}                             \\
+\toprule
+4.3.5 Protocolo de recuperación                                                          & \begin{tabular}[c]{@{}c@{}}2.4.1\\ 2.4.2\\ 2.4.3\\ 2.4.4\end{tabular} & -                                                                                          
+\\
+\bottomrule
+\hline                                                                        
+\end{tabular}
+\label{tab:tabla_req}
+\end{table}
+
+ 
 
 \section{Prueba de sistema}
 

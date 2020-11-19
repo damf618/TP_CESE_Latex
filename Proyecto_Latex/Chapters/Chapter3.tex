@@ -62,7 +62,7 @@ Un ejemplo de una instalación con potencial para un sistema de detección de in
 \end{figure}
 
 \section{Criterios de diseño}
-
+\label{criterios}
 El sistema corresponde al primero de una serie de proyectos que tienen como objetivo la generación de alternativas de monitoreo de sistemas de detección de incendio. En esta etapa el objetivo propuesto es reportar al usuario únicamente el estado de la instalación, pero en futuros proyectos se desea alcanzar un mayor nivel de detalle. A continuación se describen los criterios considerados para la selección de los componentes:
 
 Escalabilidad: el sistema debe contar con los recursos necesarios para la integración de nuevas funcionalidades o servicios.
@@ -303,7 +303,7 @@ Este módulo clasifica el estado de la comunicación en cuatro posibles estados:
 
 El dispositivo primario contiene la lógica de las transiciones posibles para el sistema, que se puede analizar a partir del esquema de la figura \ref{fig:figura_p3} que ilustra cómo deben ser los cambios de estado a partir de las condiciones de transición presentes. La figura introduce los  ``estados previos'' que permiten generar acciones antes de la activación de un estado específico y más importante aún, funcionan como un elemento de validación, ya que hacen necesario que la transición entre estados principales (alarma y falla, alarma, normal y falla) se realice únicamente ante dos transiciones del mismo tipo.
 
-\begin{figure}[]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=.35]{./Figures/Capitulo3/Fig_P3.png}
 	\caption{Diagrama de flujo de la lógica del sistema.}
@@ -312,6 +312,7 @@ El dispositivo primario contiene la lógica de las transiciones posibles para el
 
 El segmento de código \ref{cod:vControl} se alimenta a partir de la información generada por el módulo de estado. Realiza un análisis con el objetivo de determinar la transición adecuada y la cantidad de dispositivos secundarios activos. Esta información es procesada junto con el estado actual para establecer el nuevo estado y las acciones correspondientes a ejecutar.
 
+\newpage
 \begin{lstlisting}[label=cod:vControl,caption=Pseudocódigo de  de mensajes inalámbricos.]  % Start your code-block
 
 int Comm_Code(RF_List_t* RF_List,Nodes_Database_t* Data_RF_List)
