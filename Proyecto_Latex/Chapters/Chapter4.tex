@@ -21,7 +21,7 @@ Como se explicó anteriormente, los criterios escogidos para la selección de lo
 
 \subsection{Uso del Nrf24l01+}
 
-El objetivo de este ensayo fue verificar el uso de la biblioteca RF24 para la transmisión de paquetes de información de forma inalámbrica a través del transceptor nrf24l01+ bajo condiciones ideales.
+El objetivo de este ensayo fue verificar el uso de la biblioteca RF24\cite{rf24} para la transmisión de paquetes de información de forma inalámbrica a través del transceptor nrf24l01+ bajo condiciones ideales.
 
 La prueba consistió  en establecer la comunicación inalámbrica entre dos nodos separados a una distancia de 40 cm. Uno de los nodos mantiene un conteo incremental e intenta transmitir la última lectura al próximo nodo --que se mantiene a la espera del mensaje--. En caso de que transcurra un tiempo mayor o igual a 200 ms sin recibir un mensaje, se registra un evento de timeout. El resultado se obtiene a partir del porcentaje de mensajes erróneos en relación con los totales enviados, durante un periodo de una hora.
 
@@ -61,7 +61,7 @@ Una vez identificada una posible solución, se reemplazó el adaptador por un eq
 	\label{fig:figura_b}
 \end{figure}
 
-Estos resultados evidencian lo susceptible que es el sistema a ruido en la alimentación y la necesidad de una fuente regulada, estable, con el menor ruido posible. Es por esto que a partir de este punto se incluye en el diseño del sistema el adaptador del módulo transceptor nrf24l01+. Una característica a resaltar de este adaptador es que imposibilita el uso del nrf24l01+ convencional de antena en circuito impreso y es compatible únicamente con el modelo con amplificador de potencia y reducción de ruido con antena.
+Estos resultados evidencian lo susceptible que es el sistema a ruido en la alimentación y la necesidad de una fuente regulada, estable, con el menor ruido posible \cite{nrf24guide}. Es por esto que a partir de este punto se incluye en el diseño del sistema el adaptador del módulo transceptor nrf24l01+. Una característica a resaltar de este adaptador es que imposibilita el uso del nrf24l01+ convencional de antena en circuito impreso y es compatible únicamente con el modelo con amplificador de potencia y reducción de ruido con antena.
 
 
 \subsection{Pruebas de alcance}
@@ -120,7 +120,7 @@ Los resultados se muestran en la tabla \ref{tab:tabla_1}, donde se puede aprecia
 
 \subsection{Características de la biblioteca RF24Mesh}
 
-El ensayo anterior establece los valores aproximados de alcance en diferentes condiciones. Para este ensayo se requirió validar el funcionamiento de la biblioteca RF24Mesh con un esquema similar.
+El ensayo anterior establece los valores aproximados de alcance en diferentes condiciones. Para este ensayo se requirió validar el funcionamiento de la biblioteca RF24Mesh \cite{rf24mesh} con un esquema similar.
 
 Las condiciones de esta prueba consisten en situar dos nodos en ubicaciones fijas separados una distancia de 7 m; con un segundo dispositivo secundario móvil que se utilizará para medir el alcance.
 
@@ -168,7 +168,7 @@ A simple vista se puede observar en la figura \ref{fig:figura_e} que el NodeMCU 
 	\label{fig:figura_e}
 \end{figure}
 
-Durante el encendido del NodeMCU, se ejecuta una secuencia de arranque que altera el estado de diferentes GPIOS. La tabla \ref{tab:tabla_2} muestra un listado de los pines afectados durante el arranque del chip. Al cruzar la información de la figura \ref{fig:figura_e}, con los pines que cumplen la condición de estabilidad durante el arranque según la tabla \ref{tab:tabla_2} podemos inferir que la aseveración realizada anteriormente no es correcta, el número de recursos solicitados es mayor al número de recursos disponibles, lo que hace imposible la implementación del diseño con uso exclusivo de entradas y salidas digitales.
+Durante el encendido del NodeMCU, se ejecuta una secuencia de arranque que altera el estado de diferentes GPIOS \cite{node_gpio}. La tabla \ref{tab:tabla_2} muestra un listado de los pines afectados durante el arranque del chip. Al cruzar la información de la figura \ref{fig:figura_e}, con los pines que cumplen la condición de estabilidad durante el arranque según la tabla \ref{tab:tabla_2} podemos inferir que la aseveración realizada anteriormente no es correcta, el número de recursos solicitados es mayor al número de recursos disponibles, lo que hace imposible la implementación del diseño con uso exclusivo de entradas y salidas digitales.
 
 %tabla_2
 \begin{table}[h]
@@ -200,13 +200,11 @@ A0                & ADC0          & \begin{tabular}[c]{@{}c@{}}Entrada\\ analogi
 
 La solución a este problema se centra en aprovechar otra característica del NodeMCU: la medición del voltaje se realizará a través del convertidor analógico digital incluido en el microcontrolador, lo que permite compensar el déficit de GPIOS y mantener el diseño intacto. En concreto se utilizará para el monitoreo del estado del contacto seco de falla.
 
-
-
 \subsection{Dispositivos primario y secundario}
 
-Al recopilar la información obtenida de la fabricación de los prototipos, el siguiente paso consistió en consolidar todas estas consideraciones en el esquemático del sistema, con el fin de dar inicio a la fase de elaboración de dispositivos para la fabricación. Las figuras \ref{fig:figura_h} y \ref{fig:figura_i} presentan los circuitos impresos generados en vista 3D y las figuras \ref{fig:disp_prim} y \ref{fig:disp_sec}, las placas fabricadas.
+Al recopilar la información obtenida de la fabricación de los prototipos, el siguiente paso consistió en consolidar todas estas consideraciones en el esquemático del sistema, con el fin de dar inicio a la fase de elaboración de dispositivos para la fabricación. Las figuras \ref{fig:figura_h} y \ref{fig:figura_i} presentan los circuitos impresos generados en vista 3D.
 
-\begin{figure}[ht]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=.25]{./Figures/Capitulo4/Figura_H.png}
 	\caption{Vista 3D del diseño de la placa del dispositivo secundario.}
@@ -219,21 +217,6 @@ Al recopilar la información obtenida de la fabricación de los prototipos, el s
 	\caption{Vista 3D del diseño de la placa del dispositivo primario.}
 	\label{fig:figura_i}
 \end{figure}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.25]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pediente.}
-	\label{fig:disp_prim}
-\end{figure}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=.25]{./Figures/Capitulo4/pendiente.jpg}
-	\caption{pediente.}
-	\label{fig:disp_sec}
-\end{figure}
-
 
 \section{Pruebas unitarias}
 

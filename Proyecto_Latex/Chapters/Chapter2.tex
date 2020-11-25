@@ -6,17 +6,16 @@
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-En este capítulo se presentan los requerimientos del sistema, y la planificación ejecutada. Además, se detallan las tecnologías utilizadas para el desarrollo tanto de software como de
-hardware del dispositivo primario y el dispositivo secundario.
+En este capítulo se presentan los requerimientos del sistema y la planificación ejecutada. Además, se detallan las tecnologías utilizadas para el desarrollo tanto de software como de hardware del dispositivo primario y el dispositivo secundario.
 
 \section{Detección de incendio}
 
-Toda central de alarma de incendio debe notificar a los usuarios de la instalación de la presencia de una posible alarma y actuar en concordancia con el protocolo estipulado. Para ello generalmente el sistema segmenta los elementos de entrada y de salida según lo descrito en la figura \ref{fig:figura_a1}. Dividir el sistema facilita las conexiones, mantenimiento y respetar el estándar de la norma; en resumen la división consiste en: 
+Toda central de alarma de incendio debe notificar a los usuarios de la instalación de la presencia de un posible incidente y actuar en concordancia con el protocolo estipulado. Para ello generalmente el sistema segmenta los elementos de entrada y de salida según lo descrito en la figura \ref{fig:figura_a1}. Dividir el sistema facilita las conexiones, mantenimiento y respetar el estándar de la norma; en resumen la división consiste en: 
 
 \begin{itemize}
-\item  Lazo de detección:circuito eléctrico que contiene todos aquellos dispositivos asociados específicamente a la detección de posibles focos de incendio.
+\item  Lazo de detección: circuito eléctrico que contiene todos aquellos dispositivos asociados específicamente a la detección de posibles focos de incendio.
 \item  Lazo de notificación: circuito eléctrico donde se encuentran aquellos equipos asociados a la notificación de un evento de alarma pueden ser parlantes, sirenas, luces estroboscópicas, entre otros.
-\item  Interfaz con otros sistemas: relés programables ante diferentes eventos, un conjunto de interruptores que usualmente se utilizan para la notificación de eventos, que permite aislar el sistema y a la vez indicar de forma binaria el estado de un parámetro en particular.
+\item  Interfaz con otros sistemas: relés programables ante diferentes eventos, un conjunto de interruptores que se utilizan para la notificación de eventos. Permite aislar el sistema y a la vez indicar de forma binaria el estado de un parámetro en particular.
 \end{itemize}
 
 \begin{figure}[h]
@@ -31,7 +30,7 @@ Toda central de alarma de incendio debe notificar a los usuarios de la instalaci
 Los componentes seleccionados para el sistema fueron seleccionados basados en los criterios de la sección \ref{criterios}. Existen tres componentes principales de hardware:  
 
 \begin{itemize}
-\item Raspberry Pi (dispositivo primario): es un computador de bajo costo que ejecuta un sistema operativo Linux. Tiene el tamaño de una tarjeta de crédito y cuenta con la capacidad de interactuar con componentes electrónicos externos mediante entradas y salidas de propósito general.
+\item Raspberry Pi (dispositivo primario): es un computador de bajo costo que ejecuta un sistema operativo Linux \cite{RPI}. Tiene el tamaño de una tarjeta de crédito y cuenta con la capacidad de interactuar con componentes electrónicos externos mediante entradas y salidas de propósito general.
 
 \begin{figure}[h]
 	\centering
@@ -41,7 +40,7 @@ Los componentes seleccionados para el sistema fueron seleccionados basados en lo
 \end{figure}
 
 
-\item Node-MCU (dispositivo secundario): es un kit de desarrollo de bajo costo basado en el microcontrolador ESP8266. Algunas funcionalidades resaltantes son: regulador de tensión, entradas/salidas de propósito general y un  convertidor analógico digital. Permite el desarrollo de aplicaciones que requieren conexión a Internet de forma rápida, ya que incorpora conectividad Wi-Fi.
+\item Node-MCU (dispositivo secundario): es un kit de desarrollo de bajo costo basado en el microcontrolador ESP8266 \cite{NODEMCU}. Algunas funcionalidades resaltantes son: regulador de tensión, entradas/salidas de propósito general y un  convertidor analógico digital. Permite el desarrollo de aplicaciones que requieren conexión a Internet de forma rápida, ya que incorpora conectividad Wi-Fi.
 
 \begin{figure}[h]
 	\centering
@@ -50,9 +49,7 @@ Los componentes seleccionados para el sistema fueron seleccionados basados en lo
 	\label{fig:figura_c1}
 \end{figure}
 
-\item Nrf24l01 (comunicación inalámbrica): dispositivo transceptor con un protocolo incorporado de comunicación (Enhanced ShockBurst), que permite el diseño de sistemas comunicación inalámbrico con cualquier microcontrolador que cuente con comunicación SPI.
-
-cuenta con parámetros configurables como frecuencia de trabajo (entre 2,400 - 2,4835 GHz), potencia y velocidad de transmisión de datos; lo que lo convierte en un sistema muy flexible para sistemas de bajo que requieran cumplir con requerimientos de bajo consumo.
+\item Nrf24l01 (comunicación inalámbrica): dispositivo transceptor \cite{rf24} con un protocolo incorporado de comunicación (Enhanced ShockBurst), que permite el diseño de sistemas comunicación inalámbrico con cualquier microcontrolador que cuente con comunicación SPI. Cuenta con parámetros configurables como frecuencia de trabajo (entre 2,400 - 2,4835 GHz), potencia y velocidad de transmisión de datos; lo que lo convierte en un sistema muy flexible para sistemas de bajo que requieran cumplir con requerimientos de bajo consumo.
 
 \begin{figure}[h]
 	\centering
@@ -62,22 +59,19 @@ cuenta con parámetros configurables como frecuencia de trabajo (entre 2,400 - 2
 \end{figure}
 \end{itemize}
 
-\section{Interfaces}
+\section{Protocolos e interfaces}
 
 Esta sección describe los protocolos que se utilizan internamente, junto con las plataformas y diferentes tecnologías empleadas por el sistema.      
 
-%%%%%%%%%%%%%%%%%INTRODUCCION%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Protocolos de comunicación }
-El sistema cuenta con diferentes equipos y tecnologías que se encuentran intercambiando información constantemente, por lo que se requiere de los siguientes protocolos que regulan la comunicación entre los dispositivos:
+El sistema cuenta con diferentes equipos que se encuentran intercambiando información constantemente, por lo que se requiere de los siguientes protocolos que regulan la comunicación entre los dispositivos:
 
 \begin{itemize}
-\item  SPI (Serial Peripheral Interface): es un protocolo que permite la comunicación entre un dispositivo denominado “maestro” y varios dispositivos “esclavos”. El dispositivo maestro es responsable de iniciar la comunicación y define la tasa de transmisión basado en su señal de clock, es utilizado ampliamente entre microcontroladores y es el nexo que permite a los dispositivos primario y secundario interactuar con el transceptor Nrf24l01.
+\item  SPI (Serial Peripheral Interface): es un protocolo \cite{SPI} que permite la comunicación entre un dispositivo denominado “maestro” y varios dispositivos “esclavos”. El dispositivo maestro es responsable de iniciar la comunicación y define la tasa de transmisión basado en su señal de clock, es utilizado ampliamente entre microcontroladores y es el nexo que permite a los dispositivos primario y secundario interactuar con el transceptor Nrf24l01.
 
-\item  TCP/IP + HTTP (Conexion a Internet ).
-El dispositivo primario requiere hacer la carga de información a un servidor web, para ello utiliza el protocolo TCP/IP para las capas de transporte y red, en conjunto con el protocolo HTTP para la capa de aplicación del estándar OSI.
+\item  TCP/IP + HTTP (Conexion a Internet ): el dispositivo primario requiere hacer la carga de información a un servidor web, para ello utiliza el protocolo TCP/IP para las capas de transporte y red, en conjunto con el protocolo HTTP para la capa de aplicación del estándar OSI.
 
-\item  Enhanced Shockburst: un protocolo de comunicación basado en paquetes de datos que maneja de forma automática el empaquetado de la información, sincronización, transmisión y reconocimiento automático de transacciones. El protocolo soporta bidireccionalidad y se encuentra embebido en los elementos de la serie Nrf24lxx.
+\item  Enhanced Shockburst: un protocolo de comunicación basado en paquetes de datos que maneja de forma automática el empaquetado de la información, sincronización, transmisión y reconocimiento automático de transacciones. El protocolo soporta bidireccionalidad y se encuentra embebido en los elementos de la serie Nrf24lxx \cite{nrf24_protocol}.
 \end{itemize}
 
 \subsection{Interfaces}
@@ -85,24 +79,24 @@ El dispositivo primario requiere hacer la carga de información a un servidor we
 El dispositivo primario otorga la información acerca del estado del sistema  al usuario. Requiere el desarrollo de Interfaces que permitan al usuario identificar fácilmente el estado de la instalación, al igual que un medio de acceso remoto sencillo que le permita acceder en cualquier momento.  
 
 \begin{itemize}
-\item Node-Red: herramienta de programación que provee una interfaz de desarrollo para servicios en línea. Funciona a través de programación en bloques y cuenta con diferentes integraciones con servicios de Internet,  lo que facilita el desarrollo de interfaces de usuario personalizables.    
+\item Node-Red: herramienta de programación que provee una interfaz de desarrollo para servicios en línea \cite{node_red}. Funciona a través de programación en bloques y cuenta con diferentes integraciones con servicios de Internet, lo que facilita el desarrollo de interfaces de usuario personalizables.    
 
-\item Firebase: es una plataforma de desarrollo de aplicaciones móviles. Brinda al usuario servicios de autenticación, bases de datos, almacenamiento, entre otros. Firebase permite realizar todas las conexiones necesarias para exportar la información desde el dispositivo primario a cualquier servicio de Internet, por ejemplo aplicaciones móviles o páginas web. 
+\item Firebase: es una plataforma de desarrollo de aplicaciones móviles \cite{firebase}. Brinda al usuario servicios de autenticación, bases de datos, almacenamiento, entre otros. Firebase permite realizar todas las conexiones necesarias para exportar la información desde el dispositivo primario a cualquier servicio de Internet, por ejemplo aplicaciones móviles o páginas web. 
 
-\item Bases de datos con SQLite: SQLite es una biblioteca de funcionalidades reducidas que permite generar un motor de búsqueda SQL. Las bases de datos generadas suelen utilizarse como contenedores de información para la transferencia organizada de información entre sistemas. EL uso de bases de datos permite registrar la información generada a partir de los análisis del dispositivo primario del sistema de detección de incendio.
+\item Bases de datos con SQLite: SQLite es una biblioteca de funcionalidades reducidas que permite generar un motor de búsqueda SQL \cite{sqlite}. Las bases de datos generadas suelen utilizarse como contenedores de información para la transferencia organizada de información entre sistemas. EL uso de bases de datos permite registrar la información generada a partir de los análisis del dispositivo primario del sistema de detección de incendio.
 
 \item MIT App Inventor: es un ambiente de programación en bloque que permite el diseño, simulación y construcción de aplicaciones para equipos móviles. Posee integración con Firebase por lo que con tan solo brindar los códigos de acceso, es posible acceder a la base de datos de cada proyecto.      
 \end{itemize}
 
 \section{Requerimientos}
 
-A medida que se desarrollaba el sistema se realizaron reuniones mensuales con consultores y personal técnico de la empresa Isolse SRL. Los cambios más significativos consisten en facilitar el conexionado del sistema de monitoreo, eliminar la configuración manual y aprovechar los recursos del panel de control para el suministro eléctrico.   
+A medida que se desarrollaba el sistema se realizaron reuniones mensuales con consultores y personal técnico de la empresa ISOLSE SRL. Los cambios más significativos consisten en facilitar el conexionado del sistema de monitoreo, eliminar la configuración manual y aprovechar los recursos del panel de control para el suministro eléctrico.   
 
 
 \subsection{Normas de seguridad y garantía de servicio de Isolse SRL}
 	\begin{enumerate}
 	\item El sistema no deberá comprometer de ninguna manera el funcionamiento del sistema de detección de incendio.
-	\item El sistema no deberá silenciar ni resetear los eventos presentes en el de detección de incendio de forma remota. 
+	\item El sistema no deberá silenciar ni resetear los eventos presentes en el de detección de incendio de forma remota (basados en la norma NFPA punto 23.8.2.10 \cite{nfpa}). 
 	\item El sistema de monitoreo remoto no transmitirá fallas internas al sistema de detección.
 	\item El sistema de monitoreo deberá instalarse preferentemente en el mismo gabinete que la central de alarma.
 	\end{enumerate}
